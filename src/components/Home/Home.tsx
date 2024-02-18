@@ -83,7 +83,9 @@ const Home = () => {
     return (
         <div className='homecontainer'>
             <Search onSearchChange={handleSearchChange} />
-            {temperature && <CityCard unitC={unitC} cityDetails={cityDetails} />}
+            {
+                position.latitude ? <CityCard unitC={unitC} cityDetails={cityDetails} />: <p>Please Share your location for your local weather, or select a location above! </p>
+            }
             <div className="switch"><Switch checkedChildren="F" unCheckedChildren="C" onChange={handleUnitChange}/></div>
         </div>
     )
