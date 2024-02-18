@@ -84,7 +84,7 @@ const Home = () => {
         <div className='homecontainer'>
             <Search onSearchChange={handleSearchChange} />
             {
-                position.latitude ? <CityCard unitC={unitC} cityDetails={cityDetails} />: <p>Please Share your location for your local weather, or select a location above! </p>
+                position.latitude || temperature ? <CityCard unitC={unitC} cityDetails={cityDetails} />: <div style={{maxWidth:"70%"}} >Please Share your location for your local weather, or select a location above! </div>
             }
             <div className="switch"><Switch checkedChildren="F" unCheckedChildren="C" onChange={handleUnitChange}/></div>
         </div>
