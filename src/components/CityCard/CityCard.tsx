@@ -9,6 +9,8 @@ export interface CityDetails {
     humidity?: number,
     windSpeed?: number,
     description?: string,
+    tempMax?: number,
+    tempMin?: number
 }
 
 function msToKmh(speedMs: number | null | undefined) {
@@ -19,10 +21,16 @@ function capitalizeString(str: string | undefined | null) {
     if (str) return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const CityCard: React.FC<{ cityDetails: CityDetails }> = ({ cityDetails }) => {
-    const { city, icon, temperature, humidity, windSpeed, description } = cityDetails;
+function celsiusToFahrenheit(tempCelsius: any) {
+    return tempCelsius * 9 / 5 + 32;
+}
+
+const CityCard: React.FC<{ cityDetails: CityDetails, unitC: boolean }> = ({ cityDetails, unitC }) => {
+    const { city, icon, temperature, humidity, windSpeed, description, tempMax,tempMin} = cityDetails;
+    // const c = unitC
+
     return (
-        <Card title={city} bordered={false} style={{ width: 300 }}>
+        <Card title={city} bordered={false} style={{ width: 500 }}>
             <div className='card-inside'>
                 <div className="left">
                     <img
@@ -31,24 +39,17 @@ const CityCard: React.FC<{ cityDetails: CityDetails }> = ({ cityDetails }) => {
                         alt="weather icon">
                     </img>
                     <p>{capitalizeString(description)}</p>
+                    <div className="temps">
+                    <Statistic valueStyle={{fontSize:15}} title="Max. Temp" value={unitC ? tempMax : celsiusToFahrenheit(tempMax)} suffix={unitC ? "°C" : "°F"} precision={0} />
+                    <Statistic valueStyle={{fontSize:15}} title="Min. Temp" value={unitC ? tempMin : celsiusToFahrenheit(tempMin)} suffix={unitC ? "°C" : "°F"} precision={0} />
 
-
+                    </div>
                 </div>
-
                 <div className="right">
-
-                    <Statistic title="Temperature" value={temperature} suffix="°C" precision={0} />
+                    <Statistic title="Temperature" value={unitC ? temperature : celsiusToFahrenheit(temperature)} suffix={unitC ? "°C" : "°F"} precision={0} />
                     <Statistic title="Humidity" value={humidity} suffix="%" precision={0} />
                     <Statistic title="Windspeed" value={msToKmh(windSpeed)} suffix="km/h" precision={0} />
-
                 </div>
-
-
-
-                {/* <p>{temperature?.toFixed(0)}°C</p>
-                <p>{humidity}%</p>
-                <p>{msToKmh(windSpeed)}Km/h</p>
-                <p>{icon}</p> */}
             </div>
         </Card>
     )

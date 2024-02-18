@@ -4,6 +4,7 @@ import Search from '../Search/Search';
 import "./index.css"
 import axios from 'axios';
 import { genOpenWeatherAPI } from '../../api/api';
+import { Switch } from 'antd';
 
 const Home = () => {
 
@@ -14,6 +15,9 @@ const Home = () => {
     const [windSpeed, setWindSpeed] = useState<any>(null);
     const [description, setDescription] = useState<any>(null);
     const [position, setPosition] = useState<any>({ latitude: null, longitude: null });
+    const [tempMax, setTempMax] =  useState<any>(null);
+    const [tempMin, setTempMin] =  useState<any>(null);
+    const [unitC,setUnitC] = useState<boolean>(true)
 
 
     useEffect(() => {
@@ -30,8 +34,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        console.log(position)
-        handleLatLon(position.latitude,position.longitude)
+        handleLatLon(position.latitude, position.longitude)
     }, [position])
 
 
@@ -42,16 +45,19 @@ const Home = () => {
         humidity: humidity,
         windSpeed: windSpeed,
         description: description,
+        tempMax : tempMax,
+        tempMin : tempMin,
     };
 
     const handleLatLon = async (lat: number, lon: number) => {
         try {
             const response = await axios.request(genOpenWeatherAPI(lat, lon));
             const data = response.data;
-            console.log(data)
-            if(city == null) setCity(data.name)
+            // if(city == null) setCity(data.name)
             setIcon(data.weather[0].icon);
             setTemperature(data.main.temp);
+            setTempMax(data.main.temp_max)
+            setTempMin(data.main.temp_min)
             setHumidity(data.main.humidity);
             setWindSpeed(data.wind.speed)
             setDescription(data.weather[0].description)
@@ -61,7 +67,6 @@ const Home = () => {
 
     }
     const handleSearchChange = (searchData: any) => {
-        // console.log(searchData)
         setCity(searchData.value)
         setIcon(null);
         setTemperature(null);
@@ -71,10 +76,15 @@ const Home = () => {
         handleLatLon(searchData.lat, searchData.lon)
     }
 
+    const handleUnitChange = (checked:any)=>{
+        setUnitC(!checked)
+    }
+
     return (
         <div className='homecontainer'>
             <Search onSearchChange={handleSearchChange} />
-            {temperature && <CityCard cityDetails={cityDetails} />}
+            {temperature && <CityCard unitC={unitC} cityDetails={cityDetails} />}
+            <div className="switch"><Switch checkedChildren="F" unCheckedChildren="C" onChange={handleUnitChange}/></div>
         </div>
     )
 }

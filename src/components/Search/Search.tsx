@@ -19,7 +19,7 @@ const Search = ({onSearchChange}:any) => {
                 options: data.map((city: any) => {
                     return {
                         value: city.name.replace(/\s+district$/, ""),
-                        label: `${city.name.replace(/\s+district$/, "")} , ${city.region}, ${city.country}`,
+                        label: `${city.name.replace(/\s+district$/, "")} ,${city.region} ,${city.country}`,
                         lat:city.latitude,
                         lon:city.longitude,
                     }

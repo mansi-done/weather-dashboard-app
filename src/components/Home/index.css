@@ -4,7 +4,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
    
     gap:20px;
+}
+
+.switch{
+    position: fixed;
+    bottom: 20px;
+    right:20px;
 }

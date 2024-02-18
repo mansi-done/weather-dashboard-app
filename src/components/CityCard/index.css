@@ -9,4 +9,13 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    /* border: 1px solid red; */
+    width: 50%;
+}
+
+.temps{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap:15px;
 }
