@@ -1,0 +1,12 @@
+.card-inside{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
