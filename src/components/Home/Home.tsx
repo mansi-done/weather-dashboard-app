@@ -53,7 +53,7 @@ const Home = () => {
         try {
             const response = await axios.request(genOpenWeatherAPI(lat, lon));
             const data = response.data;
-            // if(city == null) setCity(data.name)
+            if(city == null) setCity(data.name)
             setIcon(data.weather[0].icon);
             setTemperature(data.main.temp);
             setTempMax(data.main.temp_max)
