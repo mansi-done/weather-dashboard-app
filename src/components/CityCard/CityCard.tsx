@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { Card, Statistic } from 'antd';
 import "./index.css"
 
@@ -26,11 +26,18 @@ function celsiusToFahrenheit(tempCelsius: any) {
 }
 
 const CityCard: React.FC<{ cityDetails: CityDetails, unitC: boolean }> = ({ cityDetails, unitC }) => {
-    const { city, icon, temperature, humidity, windSpeed, description, tempMax,tempMin} = cityDetails;
-    // const c = unitC
+    const { city, icon, temperature, humidity, windSpeed, description, tempMax, tempMin } = cityDetails;
+    const [matches, setMatches] = useState(
+        window.matchMedia("(min-width: 600px)").matches
+    )
 
+    useEffect(() => {
+        window
+        .matchMedia("(min-width: 600px)")
+        .addEventListener('change', e => setMatches( e.matches ));
+      }, []);
     return (
-        <Card title={city} bordered={false} style={{ width: 500 }}>
+        <Card title={city} bordered={false} style={{width: matches ? 500 : 300 }}>
             <div className='card-inside'>
                 <div className="left">
                     <img
@@ -40,8 +47,8 @@ const CityCard: React.FC<{ cityDetails: CityDetails, unitC: boolean }> = ({ city
                     </img>
                     <p>{capitalizeString(description)}</p>
                     <div className="temps">
-                    <Statistic valueStyle={{fontSize:15}} title="Max. Temp" value={unitC ? tempMax : celsiusToFahrenheit(tempMax)} suffix={unitC ? "°C" : "°F"} precision={0} />
-                    <Statistic valueStyle={{fontSize:15}} title="Min. Temp" value={unitC ? tempMin : celsiusToFahrenheit(tempMin)} suffix={unitC ? "°C" : "°F"} precision={0} />
+                        <Statistic valueStyle={{ fontSize: 15 }} title="Max. Temp" value={unitC ? tempMax : celsiusToFahrenheit(tempMax)} suffix={unitC ? "°C" : "°F"} precision={0} />
+                        <Statistic valueStyle={{ fontSize: 15 }} title="Min. Temp" value={unitC ? tempMin : celsiusToFahrenheit(tempMin)} suffix={unitC ? "°C" : "°F"} precision={0} />
 
                     </div>
                 </div>
